@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Waste to Wonder | Upcycled Treasures</title>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --secondary: #FFC107;
+            --dark: #2E7D32;
+            --light: #F1F8E9;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: var(--light);
+        }
+        header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('upcycled-banner.jpg');
+            background-size: cover;
+            height: 60vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-align: center;
+        }
+        .path-options {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .path-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s;
+        }
+        .path-card:hover {
+            transform: translateY(-10px);
+        }
+        .featured-products {
+            padding: 2rem;
+            text-align: center;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1rem;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .product-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 4px;
+        }
+        button {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: var(--dark);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-content {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+        .close-btn {
+            float: right;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        form input, form textarea, form select {
+            padding: 0.5rem;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+        footer {
+            background-color: var(--dark);
+            color: white;
+            text-align: center;
+            padding: 1rem;
+            margin-top: 2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Waste to Wonder</h1>
+        <p>Turn trash into treasure, choose your path</p>
+    </header>
+    
+    <section class="hero">
+        <h2>Discover Unique Upcycled Creations</h2>
+        <p>Join our community of eco-conscious creators and shoppers</p>
+        <div class="cta-buttons">
+            <button id="browseProductsBtn">Browse Products</button>
+            <button id="sellCreationsBtn">Sell Your Creations</button>
+        </div>
+    </section>
+    
+    <section class="path-options">
+        <div class="path-card">
+            <h3>Buy Sustainable</h3>
+            <p>Discover one-of-a-kind items made from recycled materials</p>
+            <button class="shopNowBtn">Shop Now</button>
+        </div>
+        <div class="path-card">
+            <h3>Sell Your Creations</h3>
+            <p>Turn your upcycling projects into income</p>
+            <button class="startSellingBtn">Start Selling</button>
+        </div>
+        <div class="path-card">
+            <h3>Learn Upcycling</h3>
+            <p>Tutorials and workshops to start your journey</p>
+            <button class="learnUpcyclingBtn">Explore</button>
+        </div>
+    </section>
+    
+    <section class="featured-products">
+        <h2>Featured Upcycled Products</h2>
+        <div class="product-grid">
+            <div class="product-card">
+                <img src="recycled-lamp.jpg" alt="Upcycled Bottle Lamp">
+                <h4>Bottle Cap Lamp</h4>
+                <p>Made from 100+ recycled bottle caps</p>
+                <p>$45.00</p>
+                <button class="viewDetailsBtn" data-product="1">View Details</button>
+            </div>
+            <div class="product-card">
+                <img src="paper-flowers.jpg" alt="Recycled Paper Flowers">
+                <h4>Paper Flower Bouquet</h4>
+                <p>Handcrafted from old magazines</p>
+                <p>$28.00</p>
+                <button class="viewDetailsBtn" data-product="2">View Details</button>
+            </div>
+            <div class="product-card">
+                <img src="tire-ottoman.jpg" alt="Upcycled Tire Ottoman">
+                <h4>Tire Ottoman</h4>
+                <p>Reclaimed tire with fabric cover</p>
+                <p>$65.00</p>
+                <button class="viewDetailsBtn" data-product="3">View Details</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Modal for Product Details -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <div id="productModalContent">
+                <!-- Content will be loaded here dynamically -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal for Seller Registration -->
+    <div id="sellerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Create Seller Profile</h2>
+            <form id="sellerForm">
+                <label for="sellerFullName">Full name</label>
+                <input type="text" id="sellerFullName" required>
+                
+                <label for="sellerEmail">Email</label>
+                <input type="email" id="sellerEmail" required>
+                
+                <label for="sellerContact">Contact Number</label>
+                <input type="tel" id="sellerContact" required>
+                
+                <label for="sellerAddress">Address</label>
+                <textarea id="sellerAddress" required></textarea>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Buyer Registration -->
+    <div id="buyerModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Create Buyer Profile</h2>
+            <form id="buyerForm">
+                <label for="buyerFullName">Full name</label>
+                <input type="text" id="buyerFullName" required>
+                
+                <label for="buyerEmail">Email</label>
+                <input type="email" id="buyerEmail" required>
+                
+                <label for="buyerContact">Contact Number</label>
+                <input type="tel" id="buyerContact" required>
+                
+                <label for="buyerAddress">Address</label>
+                <textarea id="buyerAddress" required></textarea>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Product Upload -->
+    <div id="uploadModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2>Upload Your Product</h2>
+            <form id="uploadForm">
+                <label for="productImages">Upload Product Images</label>
+                <input type="file" id="productImages" multiple accept="image/*" required>
+                
+                <label for="productName">Product Name</label>
+                <input type="text" id="productName" required>
+                
+                <label for="wasteUsed">Waste Materials Used</label>
+                <input type="text" id="wasteUsed" required>
+                
+                <label for="productColors">Colors/Theme</label>
+                <input type="text" id="productColors" required>
+                
+                <label for="productPrice">Price ($)</label>
+                <input type="number" id="productPrice" step="0.01" required>
+                
+                <label for="storeName">Store Name</label>
+                <input type="text" id="storeName" required>
+                
+                <label for="storeDescription">Store Description</label>
+                <textarea id="storeDescription" required></textarea>
+                
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal for Rating and Review -->
+    <div id="reviewModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn">&times;</span>
+            <h2 id="reviewProductTitle">Rate and Review Product</h2>
+            <form id="reviewForm">
+                <label for="rating">Rating (1-5)</label>
+                <input type="number" id="rating" min="1" max="5" step="0.5" required>
+                
+                <label for="reviewText">Review</label>
+                <textarea id="reviewText" rows="4" required></textarea>
+                
+                <button type="submit">Submit Review</button>
+            </form>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 Waste to Wonder. All rights reserved.</p>
+        <p>Sustainable shopping for a better planet</p>
+    </footer>
+
+    <script>
+        // Sample product data
+        const products = {
+            1: {
+                name: "Bottle Cap Lamp",
+                description: "Beautiful lamp made from 100+ recycled bottle caps arranged in a floral pattern. The base is made from reclaimed wood. Provides warm ambient lighting perfect for bedrooms or living rooms.",
+                price: 45.00,
+                materials: ["Glass bottle caps", "Reclaimed wood", "LED lights"],
+                sustainability: "Diverts approximately 500g of waste from landfills",
+                images: ["recycled-lamp.jpg", "recycled-lamp-2.jpg"],
+                seller: "EcoCraft Creations",
+                reviews: [
+                    {rating: 4.5, review: "Absolutely love this lamp! The craftsmanship is amazing.", user: "Sarah J."},
+                    {rating: 5, review: "Perfect addition to my eco-friendly home. Gets lots of compliments!", user: "Michael T."}
+                ]
+            },
+            2: {
+                name: "Paper Flower Bouquet",
+                description: "Handcrafted bouquet made from recycled magazines and books. Each flower is carefully shaped and colored to create a realistic appearance. Never wilts and makes a perfect sustainable gift.",
+                price: 28.00,
+                materials: ["Recycled paper", "Floral wire", "Non-toxic glue"],
+                sustainability: "Uses paper that would otherwise be discarded",
+                images: ["paper-flowers.jpg", "paper-flowers-2.jpg"],
+                seller: "Green Petals",
+                reviews: [
+                    {rating: 5, review: "Gave this to my wife for our anniversary. She loved the creativity!", user: "David L."},
+                    {rating: 4, review: "Beautiful craftsmanship. Looks real from a distance!", user: "Emma K."}
+                ]
+            },
+            3: {
+                name: "Tire Ottoman",
+                description: "Stylish and functional ottoman made from a reclaimed car tire. The tire is cleaned and wrapped with durable fabric. Includes storage space inside. Perfect for small spaces.",
+                price: 65.00,
+                materials: ["Reclaimed tire", "Upcycled fabric", "Foam padding"],
+                sustainability: "Prevents tires from ending up in landfills or oceans",
+                images: ["tire-ottoman.jpg", "tire-ottoman-2.jpg"],
+                seller: "Urban Upcyclers",
+                reviews: [
+                    {rating: 5, review: "So comfortable and unique! Great conversation piece.", user: "Jessica M."},
+                    {rating: 4.5, review: "Perfect for my apartment. Love the storage space inside.", user: "Ryan P."}
+                ]
+            }
+        };
+
+        // DOM elements
+        const productModal = document.getElementById('productModal');
+        const sellerModal = document.getElementById('sellerModal');
+        const buyerModal = document.getElementById('buyerModal');
+        const uploadModal = document.getElementById('uploadModal');
+        const reviewModal = document.getElementById('reviewModal');
+        const productModalContent = document.getElementById('productModalContent');
+        const reviewProductTitle = document.getElementById('reviewProductTitle');
+
+        // Close modals when clicking X
+        document.querySelectorAll('.close-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                productModal.style.display = 'none';
+                sellerModal.style.display = 'none';
+                buyerModal.style.display = 'none';
+                uploadModal.style.display = 'none';
+                reviewModal.style.display = 'none';
+            });
+        });
+
+        // Close modals when clicking outside
+        window.addEventListener('click', (e) => {
+            if (e.target === productModal) productModal.style.display = 'none';
+            if (e.target === sellerModal) sellerModal.style.display = 'none';
+            if (e.target === buyerModal) buyerModal.style.display = 'none';
+            if (e.target === uploadModal) uploadModal.style.display = 'none';
+            if (e.target === reviewModal) reviewModal.style.display = 'none';
+        });
+
+        // Button event listeners
+        document.getElementById('browseProductsBtn').addEventListener('click', () => {
+            // Scroll to products section
+            document.querySelector('.featured-products').scrollIntoView({behavior: 'smooth'});
+        });
+
+        document.getElementById('sellCreationsBtn').addEventListener('click', () => {
+            sellerModal.style.display = 'flex';
+        });
+
+        document.querySelectorAll('.shopNowBtn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                buyerModal.style.display = 'flex';
+            });
+        });
+
+        document.querySelectorAll('.startSellingBtn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                sellerModal.style.display = 'flex';
+            });
+        });
+
+        document.querySelectorAll('.learnUpcyclingBtn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                alert('Our upcycling tutorials section is coming soon! Check back later for DIY guides and workshops.');
+            });
+        });
+
+        document.querySelectorAll('.viewDetailsBtn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const productId = e.target.getAttribute('data-product');
+                const product = products[productId];
+                
+                // Calculate average rating
+                const avgRating = product.reviews.reduce((sum, review) => sum + review.rating, 0) / product.reviews.length;
+                
+                // Build product details HTML
+                let html = `
+                    <div class="product-details">
+                        <h3>${product.name}</h3>
+                        <div class="product-images">
+                            <img src="${product.images[0]}" alt="${product.name}" style="width:100%; max-height:300px; object-fit:contain;">
+                        </div>
+                        <p><strong>Price:</strong> $${product.price.toFixed(2)}</p>
+                        <p><strong>Description:</strong> ${product.description}</p>
+                        <p><strong>Materials Used:</strong> ${product.materials.join(', ')}</p>
+                        <p><strong>Sustainability Impact:</strong> ${product.sustainability}</p>
+                        <p><strong>Seller:</strong> ${product.seller}</p>
+                        <div class="ratings">
+                            <p><strong>Average Rating:</strong> ${avgRating.toFixed(1)}/5 (${product.reviews.length} reviews)</p>
+                            <button class="addReviewBtn" data-product="${productId}">Add Your Review</button>
+                        </div>
+                        <div class="reviews">
+                            <h4>Customer Reviews</h4>
+                            ${product.reviews.map(review => `
+                                <div class="review">
+                                    <p><strong>${review.user}</strong> - ${review.rating}/5</p>
+                                    <p>${review.review}</p>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <button class="addToCartBtn" data-product="${productId}">Add to Cart</button>
+                    </div>
+                `;
+                
+                productModalContent.innerHTML = html;
+                productModal.style.display = 'flex';
+                
+                // Add event listener for the review button inside the modal
+                document.querySelector('.addReviewBtn')?.addEventListener('click', (e) => {
+                    const productId = e.target.getAttribute('data-product');
+                    const product = products[productId];
+                    reviewProductTitle.textContent = `Rate and Review ${product.name}`;
+                    reviewModal.style.display = 'flex';
+                    productModal.style.display = 'none';
+                });
+            });
+        });
+
+        // Form submissions
+        document.getElementById('sellerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Seller profile created successfully! You can now start listing your products.');
+            sellerModal.style.display = 'none';
+        });
+
+        document.getElementById('buyerForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Buyer profile created successfully! Happy shopping.');
+            buyerModal.style.display = 'none';
+        });
+
+        document.getElementById('uploadForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Product uploaded successfully! It will be visible after approval.');
+            uploadModal.style.display = 'none';
+        });
+
+        document.getElementById('reviewForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your review! It has been submitted.');
+            reviewModal.style.display = 'none';
+        });
+    </script>
+</body>
+</html>
